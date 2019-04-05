@@ -28,12 +28,29 @@ class TerraformClient:
         self.token = token
         self.organization = organization
         self.workspace = workspace
+        self._workspace_id = None
+
+    @property
+    def workspace_id(self):
+        if self._workspace_id is None:
+            self._workspace_id = self._get_workspace_id()
+        return self._workspace_id
 
     def _get_headers(self):
         return {
             "Authorization": f"Bearer {self.token}",
             "Content-Type": "application/vnd.api+json",
         }
+
+    def _get_workspace_id(self):
+        url = f"{_TERRAFORM_API_URL}organizations/{self.organization}/workspaces/{self.workspace}"
+        request = urllib.request.Request(url, headers=self._get_headers())
+        response = urllib.request.urlopen(request)
+        status_code = response.getcode()
+        if status_code != 200:
+            raise TerraformError(f"Received status code {status_code}. Expected 200")
+        payload = json.load(response)
+        return payload["data"]["id"]
 
     def get_variables(self):
         query_params = urllib.parse.urlencode(
@@ -48,7 +65,7 @@ class TerraformClient:
         response = urllib.request.urlopen(request)
         status_code = response.getcode()
         if status_code != 200:
-            raise TerraformError(f"Received status code: {status_code}")
+            raise TerraformError(f"Received status code {status_code}. Expected 200")
         payload = json.load(response)
         variables = [TerraformVariable(var) for var in payload["data"]]
         return {var.name: var for var in variables}
@@ -69,4 +86,30 @@ class TerraformClient:
         response = urllib.request.urlopen(request)
         status_code = response.getcode()
         if status_code != 200:
-            raise TerraformError(f"Received status code: {status_code}")
+            raise TerraformError(f"Received status code: {status_code}. Expected 200")
+
+    def create_run(self, message):
+        url = f"{_TERRAFORM_API_URL}runs"
+        payload = {
+            "data": {
+                "attributes": {"is-destroy": False, "message": message},
+                "type": "runs",
+                "relationships": {
+                    "workspace": {
+                        "data": {"type": "workspaces", "id": self.workspace_id}
+                    }
+                },
+            }
+        }
+        payload = json.dumps(payload).encode("utf-8")
+        request = urllib.request.Request(
+            url, headers=self._get_headers(), method="POST", data=payload
+        )
+        response = urllib.request.urlopen(request)
+        status_code = response.getcode()
+        if status_code != 201:
+            raise TerraformError(f"Received status code {status_code}. Expected 201")
+
+        data = json.load(response)
+        run_id = data["data"]["id"]
+        return run_id
