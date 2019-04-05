@@ -1,2 +1,3 @@
-# terraform-enterprise-client
-A client for HashiCorp Terraform Enterprise
+# Terraform Enterprise Client
+
+An API client for HashiCorp's Terraform Enterprise

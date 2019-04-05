@@ -1,0 +1,25 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "c01fcb4360105340cf880dc35fcf0c4370cafb69f9fcd28903304a5797f69fab"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3.7"
+        },
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "terraform-enterprise-client": {
+            "editable": true,
+            "path": "."
+        }
+    },
+    "develop": {}
+}
