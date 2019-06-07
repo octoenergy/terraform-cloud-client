@@ -72,13 +72,7 @@ class TerraformClient:
 
     def update_variable(self, variable_id, new_value):
         url = f"{_TERRAFORM_API_URL}vars/{variable_id}"
-        payload = {
-            "data": {
-                "type": "vars",
-                "id": variable_id,
-                "attributes": {"value": new_value},
-            }
-        }
+        payload = {"data": {"type": "vars", "id": variable_id, "attributes": {"value": new_value}}}
         payload = json.dumps(payload).encode("utf-8")
         request = urllib.request.Request(
             url, headers=self._get_headers(), method="PATCH", data=payload
@@ -95,9 +89,7 @@ class TerraformClient:
                 "attributes": {"is-destroy": False, "message": message},
                 "type": "runs",
                 "relationships": {
-                    "workspace": {
-                        "data": {"type": "workspaces", "id": self.workspace_id}
-                    }
+                    "workspace": {"data": {"type": "workspaces", "id": self.workspace_id}}
                 },
             }
         }

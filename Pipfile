@@ -8,6 +8,12 @@ verify_ssl = true
 [packages]
 terraform-enterprise-client = {editable = true,path = "."}
 twine = "*"
+black = "*"
+isort = "*"
 
 [requires]
 python_version = "3.7"
+
+[pipenv]
+# allow_prereleases is only needed for black, which is still calling itself a beta
+allow_prereleases = true
