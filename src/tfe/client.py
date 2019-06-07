@@ -3,10 +3,30 @@ import urllib.parse
 import urllib.request
 
 _TERRAFORM_API_URL = "https://app.terraform.io/api/v2/"
+_TERRAFORM_RUN_URL = "https://app.terraform.io/app/{organization}/workspaces/{workspace}/runs/{id}"
 
 
 class TerraformError(Exception):
     pass
+
+
+class TerraformRun:
+    def __init__(self, id, organization, workspace):
+        self.id = id
+        self.organization = organization
+        self.workspace = workspace
+
+    def __repr__(self):
+        return (
+            f"<TerraformRun run_id={self.id!r}, "
+            "organization={self.organization!r}, workspace={self.workspace!r}>"
+        )
+
+    @property
+    def url(self):
+        return _TERRAFORM_RUN_URL.format(
+            id=self.id, organization=self.organization, workspace=self.workspace
+        )
 
 
 class TerraformVariable:
@@ -104,4 +124,4 @@ class TerraformClient:
 
         data = json.load(response)
         run_id = data["data"]["id"]
-        return run_id
+        return TerraformRun(run_id, self.organization, self.workspace)

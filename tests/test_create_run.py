@@ -57,7 +57,7 @@ def test_create_run_happy_path(mock_request):
     client = tfe.TerraformClient("my_token", "my_org", "my_workspace")
     client._workspace_id = "workspaceid"
 
-    run_id = client.create_run("my_message")
+    run = client.create_run("my_message")
 
     request_constructor.assert_called_once_with(
         "https://app.terraform.io/api/v2/runs",
@@ -65,7 +65,7 @@ def test_create_run_happy_path(mock_request):
         headers={"Authorization": "Bearer my_token", "Content-Type": "application/vnd.api+json"},
         method="POST",
     )
-    assert run_id == "run-somerunid"
+    assert run.id == "run-somerunid"
 
 
 @mock.patch("urllib.request")
