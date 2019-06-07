@@ -80,7 +80,7 @@ class TerraformClient:
         response = urllib.request.urlopen(request)
         status_code = response.getcode()
         if status_code != 200:
-            raise TerraformError(f"Received status code: {status_code}. Expected 200")
+            raise TerraformError(f"Received status code {status_code}. Expected 200")
 
     def create_run(self, message):
         url = f"{_TERRAFORM_API_URL}runs"

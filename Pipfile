@@ -10,6 +10,7 @@ terraform-enterprise-client = {editable = true,path = "."}
 twine = "*"
 black = "*"
 isort = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.7"
