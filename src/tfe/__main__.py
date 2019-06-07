@@ -6,14 +6,9 @@ entry_point, which installs `tfe` as an executable script.
 """
 import sys
 
-
-def main(args=None):
-    """The entry point when running `tfe` as a script"""
-    if args is None:
-        args = sys.argv[1:]
-
-    print("You are running the main() function in the tfe.__main__ Python package.")
-
+# We need to use an absolute import here. Relative imports don't work from
+# __main__ modules.
+from tfe.cli import main
 
 if __name__ == "__main__":
     sys.exit(main())
