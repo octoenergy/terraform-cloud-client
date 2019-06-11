@@ -1,0 +1,46 @@
+from unittest import mock
+
+import pytest
+
+import tfe
+
+
+@mock.patch("urllib.request")
+def test_update_variable_happy_path(mock_request):
+    request_constructor = mock.Mock()
+    mock_request.Request = request_constructor
+    response = mock.Mock()
+    response.getcode.return_value = 200
+    mock_request.urlopen.return_value = response
+
+    client = tfe.TerraformClient("my_token", "my_org", "my_workspace")
+    client.update_variable("some_variable_id", "new_value")
+
+    request_constructor.assert_called_once_with(
+        "https://app.terraform.io/api/v2/vars/some_variable_id",
+        data=b'{"data": {"type": "vars", "id": "some_variable_id", "attributes": {"value": "new_value"}}}',
+        headers={"Authorization": "Bearer my_token", "Content-Type": "application/vnd.api+json"},
+        method="PATCH",
+    )
+
+
+@mock.patch("urllib.request")
+def test_update_variable_invalid_key_raise_terraform_error(mock_request):
+    response = mock.Mock()
+    response.getcode.return_value = 401
+    mock_request.urlopen.return_value = response
+
+    client = tfe.TerraformClient("my_token", "my_org", "my_workspace")
+    with pytest.raises(tfe.TerraformError, match="Received status code 401. Expected 200"):
+        client.update_variable("some_variable_id", "new_value")
+
+
+@mock.patch("urllib.request")
+def test_update_variable_invalid_org_or_workspace_raise_terraform_error(mock_request):
+    response = mock.Mock()
+    response.getcode.return_value = 404
+    mock_request.urlopen.return_value = response
+
+    client = tfe.TerraformClient("my_token", "my_org", "my_workspace")
+    with pytest.raises(tfe.TerraformError, match="Received status code 404. Expected 200"):
+        client.update_variable("some_variable_id", "new_value")

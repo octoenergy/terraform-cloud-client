@@ -1,0 +1,20 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+terraform-enterprise-client = {editable = true,path = "."}
+twine = "*"
+black = "*"
+isort = "*"
+pytest = "*"
+
+[requires]
+python_version = "3.7"
+
+[pipenv]
+# allow_prereleases is only needed for black, which is still calling itself a beta
+allow_prereleases = true
