@@ -85,3 +85,23 @@ $ tfc my_organization my_workspace foo=baz --message="Reticulating splines"
 Updated 'foo' from 'bar' to 'baz'
 Created run run-g6SmSsLVKg71yeNw - check status at: https://app.terraform.io/app/my_organization/workspaces/my_workspace/runs/run-g6SmSsLVKg71yeNw
 ```
+
+The message argument can contain variables which are expanded at runtime. These follow the same
+formatting rules as Python's `str.format(...)`. The variables which are currently defined are:
+
+- git_repository
+- git_branch
+- git_commit_subject
+- git_commit_author
+
+So for example:
+
+```
+$ tfc my_organization my_workspace foo=baz --message="{git_commit_subject} (author: {git_commit_author}, branch: {git_branch}, repo: {git_repository})"
+```
+
+might create a run with the message:
+
+```
+My commit message (author: Joe Bloggs, branch: my-branch, repo: terraform-cloud-client)
+```

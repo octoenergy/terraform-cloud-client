@@ -2,9 +2,30 @@ import argparse
 import os
 import sys
 
-from . import client
+from . import client, message_variables
 
 DEFAULT_RUN_MESSAGE = "Run triggered by `tfc` command line tool"
+
+
+class MessageVariableMapping:
+    """
+    Wrapper for the tfc.message_variables module
+
+    Wraps the tfc.message_variables module in a mapping (dictionary like) interface. The name of
+    each function in tfc.message_variables becomes a key in the mapping and the value is the result
+    of running that function with no arguments.
+
+    This wrapper effectively allows us to lazily pass all of the results from the functions in
+    tfc.message_variables into str.format() (i.e. without running functions which are not used by
+    the format string)
+    """
+
+    def __getitem__(self, key):
+        func = getattr(message_variables, key)
+        if getattr(func, "is_message_variable", False):
+            return func()
+        else:
+            raise KeyError(key)
 
 
 def trigger_run_with_variables(organization, workspace, message, assignments):
@@ -35,9 +56,7 @@ def get_command_line_arguments(argv):
         description="Trigger a Terraform Cloud run",
         epilog="Put your API token in the TERRAFORM_CLOUD_TOKEN environment variable",
     )
-    parser.add_argument(
-        "organization", help="The name of your organization in Terraform Cloud"
-    )
+    parser.add_argument("organization", help="The name of your organization in Terraform Cloud")
     parser.add_argument("workspace", help="The name of your workspace in Terraform Cloud")
     parser.add_argument(
         "variables",
@@ -61,5 +80,6 @@ def get_command_line_arguments(argv):
 def main(argv=sys.argv):
     """The entry point when running `tfc` as a script"""
     args = get_command_line_arguments(argv)
-    trigger_run_with_variables(args.organization, args.workspace, args.message, args.variables)
+    message = args.message.format_map(MessageVariableMapping())
+    trigger_run_with_variables(args.organization, args.workspace, message, args.variables)
     return 0
