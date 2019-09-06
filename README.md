@@ -1,11 +1,11 @@
-# Terraform Enterprise Client
+# Terraform Cloud Client
 
-An API client for HashiCorp's Terraform Enterprise
+An API client for HashiCorp's Terraform Cloud
 
 ## Installation
 
 ```
-$ pip install terraform-enterprise-client
+$ pip install terraform-cloud-client
 ```
 
 This client is only tested on python 3.7
@@ -15,8 +15,8 @@ This client is only tested on python 3.7
 Set up:
 
 ```python
->>> import tfe
->>> client = tfe.TerraformClient("my_api_token", "my_organization", "my_workspace")
+>>> import tfc
+>>> client = tfc.TerraformClient("my_api_token", "my_organization", "my_workspace")
 ```
 
 Get Terraform variables:
@@ -55,18 +55,18 @@ Trigger a run:
 
 ## Usage as a command line tool
 
-Installing this via pip also installs a `tfe` command line tool
+Installing this via pip also installs a `tfc` command line tool
 
 ```
-$ tfe --help
-usage: tfe [-h] [--message MESSAGE]
+$ tfc --help
+usage: tfc [-h] [--message MESSAGE]
            organization workspace [name=value [name=value ...]]
 
-Trigger a Terraform Enterprise run
+Trigger a Terraform Cloud run
 
 positional arguments:
-  organization          The name of your organization in Terraform Enterprise
-  workspace             The name of your workspace in Terraform Enterprise
+  organization          The name of your organization in Terraform Cloud
+  workspace             The name of your workspace in Terraform Cloud
   name=value            Set terraform variable NAME to VALUE before creating
                         the run
 
@@ -75,13 +75,13 @@ optional arguments:
   --message MESSAGE, -m MESSAGE
                         The message to be associated with this run
 
-Put your API token in the TERRAFORM_ENTERPRISE_TOKEN environment variable
+Put your API token in the TERRAFORM_CLOUD_TOKEN environment variable
 ```
 
 So for example:
 
 ```
-$ tfe my_organization my_workspace foo=baz --message="Reticulating splines"
+$ tfc my_organization my_workspace foo=baz --message="Reticulating splines"
 Updated 'foo' from 'bar' to 'baz'
 Created run run-g6SmSsLVKg71yeNw - check status at: https://app.terraform.io/app/my_organization/workspaces/my_workspace/runs/run-g6SmSsLVKg71yeNw
 ```

@@ -6,7 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-terraform-enterprise-client = {editable = true,path = "."}
+terraform-cloud-client = {editable = true,path = "."}
 twine = "*"
 black = "*"
 isort = "*"

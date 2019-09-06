@@ -2,7 +2,7 @@ from unittest import mock
 
 import pytest
 
-import tfe
+import tfc
 
 api_response_to_vars_query = """
 {
@@ -73,14 +73,14 @@ def test_get_variables_happy_path(mock_request):
     response.read.return_value = api_response_to_vars_query
     mock_request.urlopen.return_value = response
 
-    client = tfe.TerraformClient("my_token", "my_org", "my_workspace")
+    client = tfc.TerraformClient("my_token", "my_org", "my_workspace")
     variables = client.get_variables()
 
     request_constructor.assert_called_once_with(
         "https://app.terraform.io/api/v2/vars?filter%5Borganization%5D%5Bname%5D=my_org&filter%5Bworkspace%5D%5Bname%5D=my_workspace",
         headers={"Authorization": "Bearer my_token", "Content-Type": "application/vnd.api+json"},
     )
-    assert all(isinstance(v, tfe.TerraformVariable) for v in variables.values())
+    assert all(isinstance(v, tfc.TerraformVariable) for v in variables.values())
     assert {k: v.__dict__ for (k, v) in variables.items()} == {
         "variable_1": {
             "id": "var-someid1",
@@ -103,8 +103,8 @@ def test_get_variables_invalid_key_raise_terraform_error(mock_request):
     response.getcode.return_value = 401
     mock_request.urlopen.return_value = response
 
-    client = tfe.TerraformClient("my_token", "my_org", "my_workspace")
-    with pytest.raises(tfe.TerraformError, match="Received status code 401. Expected 200"):
+    client = tfc.TerraformClient("my_token", "my_org", "my_workspace")
+    with pytest.raises(tfc.TerraformError, match="Received status code 401. Expected 200"):
         client.get_variables()
 
 
@@ -114,6 +114,6 @@ def test_get_variables_invalid_org_or_workspace_raise_terraform_error(mock_reque
     response.getcode.return_value = 404
     mock_request.urlopen.return_value = response
 
-    client = tfe.TerraformClient("my_token", "my_org", "my_workspace")
-    with pytest.raises(tfe.TerraformError, match="Received status code 404. Expected 200"):
+    client = tfc.TerraformClient("my_token", "my_org", "my_workspace")
+    with pytest.raises(tfc.TerraformError, match="Received status code 404. Expected 200"):
         client.get_variables()
