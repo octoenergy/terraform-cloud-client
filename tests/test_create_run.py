@@ -2,7 +2,7 @@ from unittest import mock
 
 import pytest
 
-import tfe
+import tfc
 
 # In the actually API response the "relationships" dictionary is populated. Leaving it unpopulated
 # here because we don't use it and it's quite large.
@@ -24,7 +24,7 @@ api_response_to_create_run = """
             "is-destroy": false,
             "message": "Some message",
             "plan-only": false,
-            "source": "tfe-api",
+            "source": "tfc-api",
             "status-timestamps": {},
             "status": "pending",
             "trigger-reason": "manual",
@@ -54,7 +54,7 @@ def test_create_run_happy_path(mock_request):
     response.read.return_value = api_response_to_create_run
     mock_request.urlopen.return_value = response
 
-    client = tfe.TerraformClient("my_token", "my_org", "my_workspace")
+    client = tfc.TerraformClient("my_token", "my_org", "my_workspace")
     client._workspace_id = "workspaceid"
 
     run = client.create_run("my_message")
@@ -74,8 +74,8 @@ def test_create_run_invalid_key_raise_terraform_error(mock_request):
     response.getcode.return_value = 401
     mock_request.urlopen.return_value = response
 
-    client = tfe.TerraformClient("my_token", "my_org", "my_workspace")
-    with pytest.raises(tfe.TerraformError, match="Received status code 401. Expected 200"):
+    client = tfc.TerraformClient("my_token", "my_org", "my_workspace")
+    with pytest.raises(tfc.TerraformError, match="Received status code 401. Expected 200"):
         client.create_run("my_message")
 
 
@@ -85,6 +85,6 @@ def test_create_run_invalid_org_or_workspace_raise_terraform_error(mock_request)
     response.getcode.return_value = 404
     mock_request.urlopen.return_value = response
 
-    client = tfe.TerraformClient("my_token", "my_org", "my_workspace")
-    with pytest.raises(tfe.TerraformError, match="Received status code 404. Expected 200"):
+    client = tfc.TerraformClient("my_token", "my_org", "my_workspace")
+    with pytest.raises(tfc.TerraformError, match="Received status code 404. Expected 200"):
         client.create_run("my_message")

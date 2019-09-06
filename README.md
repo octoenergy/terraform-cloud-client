@@ -15,8 +15,8 @@ This client is only tested on python 3.7
 Set up:
 
 ```python
->>> import tfe
->>> client = tfe.TerraformClient("my_api_token", "my_organization", "my_workspace")
+>>> import tfc
+>>> client = tfc.TerraformClient("my_api_token", "my_organization", "my_workspace")
 ```
 
 Get Terraform variables:
@@ -55,11 +55,11 @@ Trigger a run:
 
 ## Usage as a command line tool
 
-Installing this via pip also installs a `tfe` command line tool
+Installing this via pip also installs a `tfc` command line tool
 
 ```
-$ tfe --help
-usage: tfe [-h] [--message MESSAGE]
+$ tfc --help
+usage: tfc [-h] [--message MESSAGE]
            organization workspace [name=value [name=value ...]]
 
 Trigger a Terraform Cloud run
@@ -81,7 +81,7 @@ Put your API token in the TERRAFORM_CLOUD_TOKEN environment variable
 So for example:
 
 ```
-$ tfe my_organization my_workspace foo=baz --message="Reticulating splines"
+$ tfc my_organization my_workspace foo=baz --message="Reticulating splines"
 Updated 'foo' from 'bar' to 'baz'
 Created run run-g6SmSsLVKg71yeNw - check status at: https://app.terraform.io/app/my_organization/workspaces/my_workspace/runs/run-g6SmSsLVKg71yeNw
 ```

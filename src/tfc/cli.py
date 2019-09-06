@@ -4,7 +4,7 @@ import sys
 
 from . import client
 
-DEFAULT_RUN_MESSAGE = "Run triggered by `tfe` command line tool"
+DEFAULT_RUN_MESSAGE = "Run triggered by `tfc` command line tool"
 
 
 def trigger_run_with_variables(organization, workspace, message, assignments):
@@ -59,7 +59,7 @@ def get_command_line_arguments(argv):
 
 
 def main(argv=sys.argv):
-    """The entry point when running `tfe` as a script"""
+    """The entry point when running `tfc` as a script"""
     args = get_command_line_arguments(argv)
     trigger_run_with_variables(args.organization, args.workspace, args.message, args.variables)
     return 0

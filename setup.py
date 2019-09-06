@@ -15,7 +15,7 @@ setuptools.setup(
     url="https://github.com/octoenergy/terraform-cloud-client",
     packages=setuptools.find_packages("src"),
     package_dir={"": "src"},
-    entry_points={"console_scripts": ["tfe = tfe.__main__:main"]},
+    entry_points={"console_scripts": ["tfc = tfc.__main__:main"]},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
