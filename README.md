@@ -1,11 +1,11 @@
-# Terraform Enterprise Client
+# Terraform Cloud Client
 
-An API client for HashiCorp's Terraform Enterprise
+An API client for HashiCorp's Terraform Cloud
 
 ## Installation
 
 ```
-$ pip install terraform-enterprise-client
+$ pip install terraform-cloud-client
 ```
 
 This client is only tested on python 3.7
@@ -62,11 +62,11 @@ $ tfe --help
 usage: tfe [-h] [--message MESSAGE]
            organization workspace [name=value [name=value ...]]
 
-Trigger a Terraform Enterprise run
+Trigger a Terraform Cloud run
 
 positional arguments:
-  organization          The name of your organization in Terraform Enterprise
-  workspace             The name of your workspace in Terraform Enterprise
+  organization          The name of your organization in Terraform Cloud
+  workspace             The name of your workspace in Terraform Cloud
   name=value            Set terraform variable NAME to VALUE before creating
                         the run
 
@@ -75,7 +75,7 @@ optional arguments:
   --message MESSAGE, -m MESSAGE
                         The message to be associated with this run
 
-Put your API token in the TERRAFORM_ENTERPRISE_TOKEN environment variable
+Put your API token in the TERRAFORM_CLOUD_TOKEN environment variable
 ```
 
 So for example:

@@ -8,7 +8,7 @@ DEFAULT_RUN_MESSAGE = "Run triggered by `tfe` command line tool"
 
 
 def trigger_run_with_variables(organization, workspace, message, assignments):
-    token = os.environ["TERRAFORM_ENTERPRISE_TOKEN"]
+    token = os.environ["TERRAFORM_CLOUD_TOKEN"]
     terraform = client.TerraformClient(token, organization, workspace)
     vars = terraform.get_variables()
 
@@ -32,13 +32,13 @@ def variable_assignment(value):
 
 def get_command_line_arguments(argv):
     parser = argparse.ArgumentParser(
-        description="Trigger a Terraform Enterprise run",
-        epilog="Put your API token in the TERRAFORM_ENTERPRISE_TOKEN environment variable",
+        description="Trigger a Terraform Cloud run",
+        epilog="Put your API token in the TERRAFORM_CLOUD_TOKEN environment variable",
     )
     parser.add_argument(
-        "organization", help="The name of your organization in Terraform Enterprise"
+        "organization", help="The name of your organization in Terraform Cloud"
     )
-    parser.add_argument("workspace", help="The name of your workspace in Terraform Enterprise")
+    parser.add_argument("workspace", help="The name of your workspace in Terraform Cloud")
     parser.add_argument(
         "variables",
         metavar="name=value",

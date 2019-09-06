@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "68adab0eea924cb29301c5c4c67454ddcbde9ca733412264ce19c25dcaf95caf"
+            "sha256": "bb894f1508fef4389b6c9a84d1190859876bd9d5e822dde61a58ada4065c1f29"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -189,7 +189,7 @@
             ],
             "version": "==1.12.0"
         },
-        "terraform-enterprise-client": {
+        "terraform-cloud-client": {
             "editable": true,
             "path": "."
         },
