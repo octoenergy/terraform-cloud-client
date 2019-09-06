@@ -6,8 +6,8 @@ with open("README.md", "r") as f:
 
 setuptools.setup(
     name="terraform-enterprise-client",
-    version="0.0.1",
-    author="Octopus Energy",
+    version="0.0.2",
+    author="Kraken Technologies Limited",
     author_email="talent@octopus.energy",
     description="A client for HashiCorp Terraform Enterprise",
     long_description=long_description,
