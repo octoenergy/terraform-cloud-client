@@ -105,3 +105,27 @@ might create a run with the message:
 ```
 My commit message (author: Joe Bloggs, branch: my-branch, repo: terraform-cloud-client)
 ```
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss your proposal.
+
+All features should be usable via both Python and the CLI tool. Please make sure to update/create
+documentation & tests as appropriate.
+
+
+## Development
+
+Ensure [Pipenv](https://pipenv.readthedocs.io/en/latest/) is installed then run:
+
+```bash
+$ pipenv sync --dev
+```
+
+Inside a `pipenv shell` you can:
+
+```bash
+$ pytest  # Run the tests
+$ black src/ tests/  # Auto-format the code
+$ isort --recursive src/ tests/  # Auto-format the imports
+```
