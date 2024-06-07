@@ -1,5 +1,8 @@
 # Terraform Cloud Client
 
+> [!CAUTION]
+> This project is now dormant.
+
 An API client for HashiCorp's Terraform Cloud
 
 ## Installation
